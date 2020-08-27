@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from api import app
 
 hoteis = [
@@ -36,5 +36,21 @@ def get_hoteis() :
 
 @app.route("/api/hoteis/<int:hotel_id>", methods=["GET"])
 def get_hotel(hotel_id) :
-    return jsonify({"hotel": hoteis[hotel_id]})
+    return jsonify(hoteis[hotel_id -1]["nome"])
 
+@app.route("/api/hoteis", methods=["POST"])
+def add_hotel() :
+    try :
+        hotel = request.get_json()
+        hoteis.append(hotel)
+        return jsonifly(hotel), 201
+    except IndexError:
+        return "erro"
+
+@app.route("/api/hoteis/<int:hotel_id>", methods=["PUT"])
+def update_hotel():
+    pass
+
+@app.route("/api/hoteis/<int:hotel_id>", methods=["DELETE"])
+def delete_hotel():
+    pass
